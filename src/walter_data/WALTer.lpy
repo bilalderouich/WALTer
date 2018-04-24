@@ -2341,11 +2341,11 @@ def End(lstring):
     ####################################
     print "Aloha"
 
-    for file in List_output:
+    for file in List_output: #Writing on the file
         if write_output_file[file] == True:  # write_output_Gai(GAI_dico_df)
+
             write = "write_output_" + file + "(" + file + "_dico_df)"
             output.write
-
     if write_debug_PAR == True:
         output.write_debug_PAR(Debug_PAR_dico_df)
 
@@ -3256,6 +3256,10 @@ Bud(StBu):
             StA.date_sortie = Tempcum
             StA.time = StBu.time
             nproduce Apex(StA)
+
+
+
+
           else:
             dico_cut_fantom_axes[StBu.num_plante][StBu.tiller] = True
             
