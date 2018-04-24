@@ -1,5 +1,5 @@
-from walter import project
 import os
+
 
 def test_simu2():
 

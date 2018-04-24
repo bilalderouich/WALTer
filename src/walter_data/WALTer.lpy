@@ -14,6 +14,10 @@ import os
 import uuid
 import json
 
+### Import - Gestion des sorties
+
+from walter import output_manage as output
+
 
 pj = os.path.join
 data_dir = os.getcwd()
@@ -937,50 +941,21 @@ real_ts0 = [float("inf")]
 
 ### PANDAS DATAFRAME ###
 
-global GAI_dico_df
-if CARIBU_state == "enabled":
-  GAI_dico_df = {"Init_flag":[], "Elapsed_time":[],"Temp_cum":[],"DOY":[],"Genotype":[],"Num_plante":[],"Surface_plante":[],"Surface_visible":[],"Surface_sol":[],"GAI_tot":[],"GAI_center":[],"GAI_ind":[],"GAI_prox":[],"Position":[], "Weakest_axis":[],"PAR_weakest_axis":[]}
-if CARIBU_state == "disabled":
-  GAI_dico_df = {"Init_flag":[], "Elapsed_time":[],"Temp_cum":[],"DOY":[],"Genotype":[],"Num_plante":[],"Surface_plante":[],"Surface_visible":[],"Surface_sol":[],"GAI_tot":[],"GAI_center":[],"GAI_ind":[],"GAI_prox":[],"Position":[]}
+global Apex_dico_df, Apex_R_dico_df, Internode_dico_df, Apex_Sirius_dico_df, Blade_dico_df, \
+    Peduncle_dico_df, Sheath_dico_df, Ear_dico_df, Proba_dico_df, Peraxes_dico_df, Debug_PAR_dico_df, GAI_dico_df, PAR_per_axes_dico
 
-global Apex_Sirius_dico_df
-Apex_Sirius_dico_df = {"Elapsed_time" :[],"Temperature" :[],"Temp_cum" :[], "Daylength" :[], "Num_plante" :[], "Genotype" :[], "PN"  :[], "LN"  :[], "Sumtemp"   :[], "Vern_rate" :[], "Vern_prog" :[], "Vern_flag" :[], "Debut_ppd_flag" :[], "Fin_ppd_flag" :[], "Ln_pot" :[], "Var_L_min" :[],"Ln_app" :[], "Ln_final" :[]}
+List_output=["Apex_dico_df","Apex_R_dico_df", "Internode_dico_df", "Apex_Sirius_dico_df", "Blade_dico_df", \
+    "Peduncle_dico_df", "Sheath_dico_df", "Ear_dico_df", "Proba_dico_df", "Peraxes_dico_df", "Debug_PAR_dico_df", "GAI_dico_df", "PAR_per_axes_dico"]
 
-global Apex_dico_df
-Apex_dico_df = {"Elapsed_time" :[], "Temperature" :[], "Temp_cum" :[], "Time_count" :[], "Sum_temp" :[], "Current_PAR" :[], "Num_plante":[],  "Genotype" :[], "Num_talle" :[], "Num_cohorte":[], "Nb_phyto_emi" :[], "Nb_emerged_leaf" :[], "Transiflo_flag" :[], "STOP_init_flag" :[], "Transiflo_DOY" :[],"Ln_final" :[]}
-
-global Apex_R_dico_df
-Apex_R_dico_df = {"Elapsed_time" :[], "DOY" : [], "Temperature" :[], "Temp_cum" :[], "Sum_temp" :[], "Num_plante":[], "Genotype" :[], "Num_cohorte":[], "Ln_final":[], "Num_talle" :[], "Date_epiaison" :[], "Epi_DOY" :[], "Date_de_flo" :[], "Mont_flag" :[], "Mont_DOY":[], "Flo_flag" :[], "Flo_DOY" :[], "Death_flag" :[], "Date_de_maturite" : [], "Mat_DOY" : []}
-
-global Blade_df
-Blade_dico_df = {"Elapsed_time" :[], "Temp_cum" :[], "Temperature" :[], "Num_plante" :[], "Genotype" :[], "Num_talle" :[], "Num_cohorte" :[], "Num_rang" :[], "Blade_sumtemp" :[], "Blade_width" :[], "Blade_length" :[], "Blade_visible_length" :[], "Blade_final_length" :[], "Blade_visible_surface" :[], "Blade_surface" :[], "Blade_PAR" :[], "Senesc_flag" :[], "Photosynthetic" :[]}
-
-global Internode_dico_df
-Internode_dico_df = {"Elapsed_time" :[],  "Temp_cum" :[],  "Temperature" :[],  "Num_plante" :[],  "Genotype" :[],  "Num_talle" :[], "Num_cohorte":[], "Num_rang" :[], "Internode_length" :[],  "Internode_final_length" :[], "Internode_surface" :[], "Internode_PAR" : [], "Photosynthetic" :[]}
-
-global Peduncle_dico_df
-Peduncle_dico_df = {"Elapsed_time" :[],  "Temp_cum" :[],  "Temperature" :[],  "Num_plante" :[],  "Genotype" :[],  "Num_talle" :[], "Num_cohorte":[], "Num_rang" :[],"Sum_temp" :[], "Peduncle_length" : [], "Peduncle_final_length" : [], "Peduncle_surface" : [], "Peduncle_PAR" : [], "Photosynthetic" :[]}
-
-global Sheath_dico_df
-Sheath_dico_df = {"Elapsed_time" :[],  "Temp_cum" :[],  "Temperature" :[],  "Num_plante" :[],  "Genotype" :[],  "Num_talle" :[] ,"Num_cohorte":[], "Num_rang" :[],"Sheath_sumtemp" :[] ,"Sheath_diameter" :[], "Sheath_length" :[],  "Sheath_final_length" :[], "Sheath_surface" :[], "Sheath_PAR" : [], "Photosynthetic" :[]}
-
-global Ear_dico_df
-Ear_dico_df = {"Elapsed_time":[], "Temp_cum" :[], "Num_plante" :[], "Genotype":[], "Num_talle" :[],  "Ear_sumtemp"  :[], "Ear_length" :[], "Ear_surface":[], "Ear_PAR":[], "Photosynthetic" :[], "Emerged" : []}
-
-global Proba_dico_df
-Proba_dico_df = {"Elapsed_time":[], "Temperature":[], "Temp_cum":[], "Num_plante":[], "Genotype":[], "Num_talle":[], "Num_rang":[], "Sumtemp":[], "GAI_prox":[], "P_debourr":[]}
-
-global Peraxes_dico_df
-Peraxes_dico_df = {"Init_flag":[], "Elapsed_time":[], "DOY":[], "Temperature":[], "Temp_cum":[], "Num_plante":[], "Num_talle":[], "Sheath_max":[], "Collar_height":[], "Dead_collar_height":[], "Delta_H":[], "Visible_leaves_surface":[], "Visible_surface":[], "Stop_growth_flag" : [], "Leaf_contrib_to_GAI" : [], "Stem_contrib_to_GAI" : [], "Ear_contrib_to_GAI" : [], "Peduncle_contrib_to_GAI" : []}
-
-global Debug_PAR_dico_df
-Debug_PAR_dico_df = {"Elapsed_time":[], "Temp_cum":[], "Num_plante":[], "Num_talle":[], "Organ_PAR":[], "Organ_type":[], "Num_organe":[], "Organ_surface":[], "Ei":[]}
-
+output.init_all(GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df, Apex_R_dico_df, Blade_dico_df,
+             Internode_dico_df, Peduncle_dico_df, Sheath_dico_df, Ear_dico_df, Proba_dico_df,Peraxes_dico_df,Debug_dico_df,PAR_per_axes_dico)
 
 if write_output_file["PAR_per_axes"]:
-  global PAR_per_axes_dico
-  PAR_per_axes_dico = {"Elapsed_time":[], "Temp_cum":[], "Num_plante":[], "Num_talle":[], "Sum_PAR":[], "Inc_PAR":[]}
+    output.init_output_PAR_per_axes(PAR_per_axes_dico)
 
+if CARIBU_state == "enabled":
+    dict = {"Weakest_axis":[],"PAR_weakest_axis":[]}
+    GAI_dico_df.update(dict)
 
 #######################
 ###### TABLEAUX #######
@@ -2177,23 +2152,8 @@ def EndEach(lstring, lscene):
       
       #Remplissages de dico de sortie
       if write_output_file["Peraxes"]:
-        Peraxes_dico_df["Init_flag"].append(initialization_Flag[num_plt])
-        Peraxes_dico_df["Elapsed_time"].append(elapsed_time)
-        Peraxes_dico_df["DOY"].append(DOY)
-        Peraxes_dico_df["Temperature"].append(Temperature)
-        Peraxes_dico_df["Temp_cum"].append(Tempcum)
-        Peraxes_dico_df["Num_plante"].append(num_plt)
-        Peraxes_dico_df["Num_talle"].append(axis)
-        Peraxes_dico_df["Sheath_max"].append(Sh_max_temp)      
-        Peraxes_dico_df["Collar_height"].append(Hcol_max[num_plt][axis])
-        Peraxes_dico_df["Dead_collar_height"].append(Hcol_dead[num_plt][axis])
-        Peraxes_dico_df["Delta_H"].append(delta_H[num_plt][axis])
-        Peraxes_dico_df["Visible_surface"].append(tiller_surface[(num_plt,axis)])
-        Peraxes_dico_df["Stop_growth_flag"].append(axis_census[num_plt][axis]['Stop_growth_flag'])
-        Peraxes_dico_df["Leaf_contrib_to_GAI"].append(leaf_contrib)
-        Peraxes_dico_df["Stem_contrib_to_GAI"].append(stem_contrib)
-        Peraxes_dico_df["Ear_contrib_to_GAI"].append(ear_contrib)
-        Peraxes_dico_df["Peduncle_contrib_to_GAI"].append(peduncle_contrib)
+          output.log_Peraxes(Peraxes_dico_df, initialization_Flag,num_plt, elapsed_time, DOY, Temperature,
+                Tempcum, axis, Sh_max_temp, Hcol_max, Hcol_dead, delta_H, tiller_surface, axis_census, leaf_contrib, stem_contrib, ear_contrib, peduncle_contrib)
   
 #aggregate axes surface per plant
   for key in tiller_surface.keys():
@@ -2291,27 +2251,15 @@ def EndEach(lstring, lscene):
                   else:
                     dico_PAR_per_axis[lstring[id][0].num_plante][lstring[id][0].tiller][round(Tempcum, 1)] += lstring[id][0].PAR/Temperature/tiller_surface[(lstring[id][0].num_plante,lstring[id][0].tiller)]
                   if write_debug_PAR == True :
-                    Debug_PAR_dico_df["Elapsed_time"].append(elapsed_time)
-                    Debug_PAR_dico_df["Temp_cum"].append(Temperature)
-                    Debug_PAR_dico_df["Organ_type"].append(lstring[id].name)
-                    Debug_PAR_dico_df["Num_talle"].append(lstring[id][0].tiller)
-                    Debug_PAR_dico_df["Num_plante"].append(lstring[id][0].num_plante)
-                    Debug_PAR_dico_df["Num_organe"].append(lstring[id][0].n)
-                    Debug_PAR_dico_df["Organ_surface"].append(lstring[id][0].organ_surface)
-                    Debug_PAR_dico_df["Organ_PAR"].append(lstring[id][0].PAR)
-                    
+                    output.log_Debug_PAR(Debug_PAR_dico_df, elapsed_time,Temperature, lstring)
+
+
                     
           
           if write_output_file["PAR_per_axes"] == True:
             for num_plt in axis_census.keys():
               for axis in axis_census[num_plt].keys():
-                PAR_per_axes_dico["Elapsed_time"].append(elapsed_time)
-                PAR_per_axes_dico["Temp_cum"].append(Tempcum)
-                PAR_per_axes_dico["Num_plante"].append(num_plt)
-                PAR_per_axes_dico["Num_talle"].append(axis)
-                PAR_per_axes_dico["Inc_PAR"].append(current_PAR)
-                tt = round(Tempcum, 1)
-                PAR_per_axes_dico["Sum_PAR"].append(dico_PAR_per_axis[num_plt][axis].get(tt,0.))
+                output.log_PAR_per_axes(PAR_per_axes_dico,elapsed_time,Tempcum, num_plt,axis,current_PAR,dico_PAR_per_axis)
 
     ### BOUCLE DE REGRESSION DES TALLES ###
     for num_plt in range(1,crop_scheme["nplant_peupl"] + 1):
@@ -2375,19 +2323,8 @@ def EndEach(lstring, lscene):
   ###### Fin rayonnement
   
   for num in range(1, crop_scheme["nplant_peupl"] + 1):
-    GAI_dico_df["Init_flag"].append(initialization_Flag[num])
-    GAI_dico_df['Elapsed_time'].append(elapsed_time)
-    GAI_dico_df['Temp_cum'].append(Tempcum)
-    GAI_dico_df['DOY'].append(DOY)
-    GAI_dico_df['Genotype'].append(0)
-    GAI_dico_df['Num_plante'].append(num)
-    GAI_dico_df['Surface_plante'].append(surface_plante[num])
-    GAI_dico_df['Surface_visible'].append(surface_plante_visible[num])
-    GAI_dico_df['Surface_sol'].append((crop_scheme["nplant_peupl"] * ((crop_scheme["dist_inter_rang"]*100)*(crop_scheme["dist_intra_rang"] * 100))))
-    GAI_dico_df['GAI_tot'].append(GAI_tot)
-    GAI_dico_df['GAI_center'].append(GAI_center)
-    GAI_dico_df['GAI_ind'].append(GAI_ind[num])
-    GAI_dico_df['GAI_prox'].append(GAI_prox[num])
+    output.log_Gai(GAI_dico_df, initialization_Flag, num, elapsed_time, Tempcum, DOY,
+                   surface_plante,surface_plante_visible, crop_scheme, GAI_tot, GAI_center, GAI_ind, GAI_prox)
 
     if num in plant_census:
       GAI_dico_df['Position'].append("center")
@@ -2398,224 +2335,162 @@ def EndEach(lstring, lscene):
   
 
 def End(lstring):
-  
-  ####################################
-  #   ECRITURE DANS DES FICHIERS     #
-  ####################################
-  print "Aloha"
 
-  if write_output_file["Apex_Sirius"] == True:
-    _Apex_Sirius_df = pd.DataFrame(Apex_Sirius_dico_df)
-    dF_labels = ["Elapsed_time","Temperature", "Temp_cum", "Daylength", "Num_plante", "Genotype", "PN", "LN", "Sumtemp", "Vern_rate", "Vern_prog", "Vern_flag", "Debut_ppd_flag", "Fin_ppd_flag", "Ln_pot", "Var_L_min","Ln_app", "Ln_final"]
-    Apex_Sirius_df = _Apex_Sirius_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Apex_Sirius_df.to_csv(pj(out_dir,folder_name, "Apex_Sirius.csv"), sep="\t", header=True, index=False)
+    ####################################
+    #   ECRITURE DANS DES FICHIERS     #
+    ####################################
+    print "Aloha"
 
-  if write_output_file["Apex"] == True:
-    _Apex_df = pd.DataFrame(Apex_dico_df)
-    dF_labels = ["Elapsed_time", "Temperature", "Temp_cum", "Time_count", "Sum_temp", "Current_PAR", "Num_plante",  "Genotype", "Num_talle", "Num_cohorte", "Nb_phyto_emi", "Nb_emerged_leaf", "Transiflo_flag", "STOP_init_flag", "Transiflo_DOY","Ln_final"]
-    Apex_df = _Apex_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Apex_df.to_csv(pj(out_dir,folder_name, "Apex.csv"), sep="\t", header=True, index=False)
+    for file in List_output:
+        if write_output_file[file] == True:  # write_output_Gai(GAI_dico_df)
+            write = "write_output_" + file + "(" + file + "_dico_df)"
+            output.write
 
-  if write_output_file["Apex_R"] == True:
-    _Apex_R_df = pd.DataFrame(Apex_R_dico_df)
-    dF_labels = ["Elapsed_time", "DOY", "Temperature", "Temp_cum", "Sum_temp", "Num_plante", "Genotype", "Num_talle", "Num_cohorte", "Ln_final", "Date_epiaison", "Epi_DOY", "Date_de_flo", "Mont_flag", "Mont_DOY", "Flo_flag", "Flo_DOY", "Death_flag", "Date_de_maturite", "Mat_DOY"]
-    Apex_R_df = _Apex_R_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Apex_R_df.to_csv(pj(out_dir,folder_name, "Apex_R.csv"), sep="\t", header=True, index=False)
+    if write_debug_PAR == True:
+        output.write_debug_PAR(Debug_PAR_dico_df)
 
-  if write_output_file["Blade"] == True:
-    _Blade_df = pd.DataFrame(Blade_dico_df)
-    dF_labels = ["Elapsed_time", "Temp_cum" , "Temperature", "Num_plante", "Genotype", "Num_talle", "Num_cohorte", "Num_rang", "Blade_sumtemp", "Blade_width", "Blade_length", "Blade_visible_length","Blade_final_length", "Blade_visible_surface", "Blade_surface", "Blade_PAR", "Senesc_flag" , "Photosynthetic"]
-    Blade_df = _Blade_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Blade_df.to_csv(pj(out_dir,folder_name, "Blade.csv"), sep="\t", header=True, index=False)
 
-  if write_output_file["Internode"] == True:
-    _Internode_df = pd.DataFrame(Internode_dico_df)
-    dF_labels = ["Elapsed_time" ,  "Temp_cum" ,  "Temperature" ,  "Num_plante" ,  "Genotype" ,  "Num_talle", "Num_cohorte", "Num_rang" , "Internode_length" ,  "Internode_final_length" ,  "Internode_surface", "Internode_PAR", "Photosynthetic"]
-    Internode_df = _Internode_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Internode_df.to_csv(pj(out_dir,folder_name, "Internode.csv"), sep="\t", header=True, index=False)
+    # FICHIER PARAMETRES
 
-  if write_output_file["Peduncle"] == True:
-    _Peduncle_df = pd.DataFrame(Peduncle_dico_df)
-    dF_labels = ["Elapsed_time", "Temp_cum", "Temperature",  "Num_plante",  "Genotype", "Num_talle", "Num_cohorte", "Num_rang", "Sum_temp", "Peduncle_length", "Peduncle_final_length", "Peduncle_surface", "Peduncle_PAR", "Photosynthetic"]
-    Peduncle_df = _Peduncle_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Peduncle_df.to_csv(pj(out_dir,folder_name, "Peduncle.csv"), sep = "\t", header=True, index=False)
+    fichier_params = open(pj(out_dir,folder_name, "Parameters.csv"), "w")
+    fichier_params.write("Parameter" + "\t" + "Genotype" + "\t" + "Value" + "\n" +
+                         "WALTer_version" + "\t" + "All" + "\t" + "%s" % WALTer_version + "\n" +
+                         "WALTer_build" + "\t" + "All" + "\t" + "%s" % WALTer_build + "\n" +
+                         "Related_experiment" + "\t" + "All" + "\t" + "%s" % expe_related + "\n" +
+                         "Crop_conception" + "\t" + "All" + "\t" + "%s" % crop_ccptn + "\n" +
+                         "Sowing_date" + "\t" + "All" + "\t" + "%s" % sowing_date + "\n" +
+                         "Year" + "\t" + "All" + "\t" + "%s" % year + "\n" +
+                         "Location" + "\t" + "All" + "\t" + "%s" % location + "\n" +
+                         "Latitude" + "\t" + "All" + "\t" + "%s" % latitude + "\n" +
+                         "Nbj" + "\t" + "All" + "\t" + "%s" % nbj + "\n" +
+                         "rep" + "\t" + "All" + "\t" + "%s" % rep + "\n" +
+                         "densite" + "\t" + "All" + "\t" + "%s" % densite + "\n" +
+                         "Nb_rang" + "\t" + "All" + "\t" + "%s" % nb_rangs + "\n" +
+                         "Nb_plantes" + "\t" + "All" + "\t" + "%s" % nb_plantes + "\n" +
+                         "Area_targeted" + "\t" + "All" + "\t" + "%s" % area_targeted + "\n" +
+                         "Nb_plantes_utiles" + "\t" + "All" + "\t" + "%s" % crop_scheme["nb_useful_plt"] + "\n" +
+                         "dist_border_x" + "\t" + "All" + "\t" + "%s" % dist_border_x + "\n" +
+                         "dist_border_y" + "\t" + "All" + "\t" + "%s" % dist_border_y + "\n" +
+                         "Genotypes_nb" + "\t" + "All" + "\t" + "%s" % geno_nb + "\n" +
+                         "CARIBU_state" + "\t" + "All" + "\t" + "%s" % CARIBU_state + "\n" +
+                         "SIRIUS_state" + "\t" + "All" + "\t" + "%s" % SIRIUS_state + "\n" +
+                         "Radiation_type" + "\t" + "All" + "\t" + "%s" % radiation_type + "\n" +
+                         "infinity_GAIp"  + "\t" + "All" + "\t" + "%s" % infinity_GAIp + "\n" +
+                         "infinity_CARIBU" + "\t" + "All" + "\t" + "%s" % infinity_CARIBU + "\n" +
+                         "Light_step" + "\t" + "All" + "\t" + "%s" % PAS + "\n" +
+                         "nb_azimuth" + "\t" + "All" + "\t" + "%s" % nb_azimuth + "\n" +
+                         "nb_zenith" + "\t" + "All" + "\t" + "%s" % nb_zenith + "\n" +
+                         "dist_inter_rang" + "\t" + "All" + "\t" + "%s" % dist_inter_rang + "\n" +
+                         "dist_intra_rang" + "\t" + "All" + "\t" + "%s" % dist_intra_rang + "\n" +
+                         "dx" + "\t" + "All" + "\t" + "%s" % dx  + "\n" +
+                         "dy" + "\t" + "All" + "\t" + "%s" % dy  + "\n" +
+                         "Hazard_plant_xy" + "\t" + "All" + "\t" + "%s" % hazard_driver["plant_xy"]  + "\n" +
+                         "Hazard_plant_azi" + "\t" + "All" + "\t" + "%s" % hazard_driver["plant_azi"]  + "\n" +
+                         "Hazard_axis" + "\t" + "All" + "\t" + "%s" % hazard_driver["axis"]  + "\n" +
+                         "Hazard_organ" + "\t" + "All" + "\t" + "%s" % hazard_driver["organ"]  + "\n" +
+                         "Hazard_emerg" + "\t" + "All" + "\t" + "%s" % hazard_driver["emerg"]  + "\n" +
+                         "N_p_s" + "\t" + "All" + "\t" + "%s" % N_p_s + "\n" +
+                         "l_c" + "\t" + "%s" % "All" + "\t" + "%s" % l_c + "\n" +
+                         "L_b_S" + "\t" + "All" + "\t" + "%s" % L_b_S + "\n" +
+                         "Psi_FT" + "\t" + "All" + "\t" + "%s" % Psi_FT + "\n" +
+                         "Tbase" + "\t" + "All" + "\t" + "%s" % Tbase + "\n" +
+                         "T_vern_min" + "\t" + "All" + "\t" + "%s" % Tvermin + "\n" +
+                         "T_vern_opt" + "\t" + "All" + "\t" + "%s" % Tverint + "\n" +
+                         "T_vern_max" + "\t" + "All" + "\t" + "%s" % Tvermax + "\n" +
+                         "Lmax" + "\t" + "All" + "\t" + "%s" % Lmax + "\n" +
+                         "Lmin" + "\t" + "All" + "\t" + "%s" % Lmin + "\n" +
+                         "Ldecr" + "\t" + "All" + "\t" + "%s" % Ldecr + "\n" +
+                         "Lincr" + "\t" + "All" + "\t" + "%s" % Lincr + "\n" +
+                         "phyllo_decr" + "\t" + "All" + "\t" + "%s" % phyllo_decr + "\n" +
+                         "phyllo_incr" + "\t" + "All" + "\t" + "%s" % phyllo_incr + "\n" +
+                         "DLsat" + "\t" + "All" + "\t" + "%s" % DLsat + "\n" +
+                         "Delta_b"  + "\t" + "All" + "\t" + "%s" %  Delta_b + "\n" +
+                         "dGAIp"  + "\t" + "All" + "\t" + "%s" % dGAIp + "\n" +
+                         "Delta_l"  + "\t" + "All" + "\t" + "%s" % Delta_l + "\n" +
+                         "Delta_c_GN" + "\t" + "All" + "\t" + "%s" % Delta_c_GN + "\n" +
+                         "Delta_hf" + "\t" + "All" + "\t" + "%s" % Delta_hf   + "\n" +
+                         "Delta_hm" + "\t" + "All" + "\t" + "%s" % Delta_hm  + "\n" +
+                         "Delta_lflf" + "\t" + "All" + "\t" + "%s" % Delta_lflf + "\n"+
+                         "Delta_flsp" + "\t" + "All" + "\t" + "%s" % Delta_flsp + "\n"+
+                         "Delta_SGtR" + "\t" + "All" + "\t" + "%s" % Delta_SGtR + "\n"+
+                         "Delta_SGtC" + "\t" + "All" + "\t" + "%s" % Delta_SGtC + "\n"+
+                         "ED_I" + "\t" + "All" + "\t" + "%s" % ED_I + "\n" +
+                         "ED_B" + "\t" + "All" + "\t" + "%s" % ED_B + "\n" +
+                         "ED_FB"  + "\t" + "All" + "\t" + "%s" % ED_FB + "\n" +
+                         "ED_S" + "\t" + "All" + "\t" + "%s" % ED_S + "\n" +
+                         "Phi_azi_B"  + "\t" + "All" + "\t" + "%s" % Phi_azi_B + "\n" +
+                         "Phi_zen_T"   + "\t" + "All" + "\t" + "%s" % Phi_zen_T + "\n" +
+                         "Phi_azi_T"  + "\t" + "All" + "\t" + "%s" % Phi_azi_T + "\n" +
+                         "Phi_zen_E"  + "\t" + "All" + "\t" + "%s" % Phi_zen_E + "\n" +
+                         "Phi_azi_S"  + "\t" + "All" + "\t" + "%s" % Phi_azi_S + "\n" +
+                         "Phi_zen_S"  + "\t" + "All" + "\t" + "%s" % Phi_zen_S + "\n" +
+                         "y_position_hazard"  + "\t" + "All" + "\t" + "%s" % y_position_hazard + "\n" +
+                         "x_position_hazard"  + "\t" + "All" + "\t" + "%s" % x_position_hazard + "\n" +
+                         "z_position_hazard"  + "\t" + "All" + "\t" + "%s" % z_position_hazard + "\n" +
+                         "blade_incl_hazard"  + "\t" + "All" + "\t" + "%s" % blade_incl_hazard + "\n" +
+                         "blade_azi_hazard"  + "\t" + "All" + "\t" + "%s" % blade_azi_hazard + "\n" +
+                         "till_zen_hazard"  + "\t" + "All" + "\t" + "%s" % till_zen_hazard + "\n" +
+                         "till_azi_hazard"  + "\t" + "All" + "\t" + "%s" % till_azi_hazard + "\n" +
+                         "genotype_proportion"  + "\t" + "All" + "\t" + "%s" % genotype_proportion + "\n")
 
-  if write_output_file["Sheath"] == True:
-    _Sheath_df = pd.DataFrame(Sheath_dico_df)
-    dF_labels = ["Elapsed_time" ,  "Temp_cum" ,  "Temperature" ,  "Num_plante" ,  "Genotype" ,  "Num_talle" , "Num_cohorte", "Num_rang" ,"Sheath_sumtemp"  ,"Sheath_diameter" , "Sheath_length" ,  "Sheath_final_length" , "Sheath_surface" , "Sheath_PAR" , "Photosynthetic"]
-    Sheath_df = _Sheath_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Sheath_df.to_csv(pj(out_dir,folder_name, "Sheath.csv"), sep="\t", header=True, index=False)
+    for geno in crop_genotype:
+        fichier_params.write("Phl" + "\t" + "%s" % geno + "\t" + "%s" % Phl[geno] + "\n" +
+                             "corrected_Phl" + "\t" + "%s" % geno + "\t" + "%s" % phyll_adjust(geno) + "\n" +
+                             "Pls" + "\t" + "%s" % geno + "\t" + "%s" % Pls[geno] + "\n" +
+                             "VAI" + "\t" + "%s" % geno + "\t" + "%s" % VAI[geno] + "\n" +
+                             "VBEE" + "\t" + geno + "\t" + "%s" % VBEE[geno] + "\n" +
+                             "SLDL" + "\t"+ "%s" % geno + "\t"  + "%s" % SLDL[geno] + "\n" +
+                             "Dse_mean" + "\t" + "%s" % geno + "\t" + "%s" % Dse[geno]["mean"] + "\n" +
+                             "Dse_sd" + "\t" + "%s" %  geno  + "\t" + "%s" % Dse[geno]["sd"] + "\n" +
+                             "N_I_el" + "\t" + "%s" %  geno + "\t" + "%s" % N_I_el[geno] + "\n" +
+                             "s_B_1" + "\t" + geno + "\t" + "%s" % s_B_1[geno] + "\n" +
+                             "N_B_r" + "\t" + "%s" %  geno  + "\t" + "%s" % N_B_r[geno] + "\n" +
+                             "L_B_1" + "\t" + "%s" %  geno  + "\t" + "%s" % L_B_1[geno] + "\n" +
+                             "L_B_max" + "\t" + "%s" %  geno  + "\t" + "%s" % L_B_max[geno] + "\n" +
+                             "s_B_f" + "\t" + "%s" % geno + "\t" + "%s" % s_B_f[geno] + "\n" +
+                             "a_B_w" + "\t" + "%s" % geno + "\t" + "%s" % a_B_w[geno] + "\n" +
+                             "b_B_w" + "\t" + "%s" % geno + "\t" + "%s" % b_B_w[geno] + "\n" +
+                             "a_S_L" + "\t" + "%s" % geno + "\t" + "%s" % a_S_L[geno] + "\n" +
+                             "b_S_L" + "\t" + "%s" % geno + "\t" + "%s" % b_S_L[geno] + "\n" +
+                             "inc_I"  + "\t" + "%s" % geno + "\t" + "%s" % inc_I[geno] + "\n" +
+                             "shape_internode"   + "\t" + "%s" % geno + "\t" + "%s" % shp_I[geno] + "\n" +
+                             "b_I_L"   + "\t" + "%s" % geno + "\t" + "%s" % b_I_L[geno] + "\n" +
+                             "a_I_L"   + "\t" + "%s" % geno + "\t" + "%s" % a_I_L[geno] + "\n" +
+                             "d_I" + "\t" + "%s" % geno + "\t" + "%s" % d_I[geno] + "\n" +
+                             "L_P" + "\t" + geno + "\t" + "%s" % L_P[geno] + "\n" +
+                             "d_P" + "\t" + "%s" % geno + "\t" + "%s" % d_P[geno] + "\n" +
+                             "d_E" + "\t" + "%s" % geno + "\t" + "%s" % d_E[geno] + "\n" +
+                             "L_E" + "\t" +  "%s" % geno + "\t" + "%s" % L_E[geno] + "\n" +
+                             "d_S" + "\t" + "%s" % geno + "\t" + "%s" % d_S[geno] + "\n" +
+                             "n0_sen" + "\t" + "%s" % geno + "\t" + "%s" % n0_sen[geno] + "\n" +
+                             "n1_sen" + "\t" + "%s" % geno + "\t" + "%s" % n1_sen[geno] + "\n" +
+                             "n2_sen" + "\t" + "%s" % geno + "\t" + "%s" % n2_sen[geno] + "\n" +
+                             "n3_sen" + "\t" + "%s" % geno + "\t" + "%s" % n3_sen[geno] + "\n" +
+                             "t0_sen" + "\t" + "%s" % geno + "\t" + "%s" % t0_sen[geno] + "\n" +
+                             "t1_sen" + "\t" + "%s" % geno + "\t" + "%s" % t1_sen[geno] + "\n" +
+                             "t2_sen" + "\t" + "%s" % geno + "\t" + "%s" % t2_sen[geno] + "\n" +
+                             "t3_sen" + "\t" + "%s" % geno + "\t" + "%s" % t3_sen[geno] + "\n" +
+                             "DelayTipToHS" + "\t" + "%s" % geno + "\t" + "%s" % DelayTipToHS[geno] + "\n" +
+                             "P_CT" + "\t" + "%s" %  geno  + "\t" + "%s" % P_CT[geno] + "\n" +
+                             "GAI_critique" + "\t"+ "%s" % geno + "\t"  + "%s" % GAI_c[geno] + "\n" +
+                             "t_beg_reg"  + "\t" + geno + "\t" + "%s" % t_beg_reg[geno] + "\n" +
+                             "Delta_prot" + "\t" + geno + "\t" + "%s" %  Delta_prot[geno] + "\n" +
+                             "PAR_t" + "\t" + geno + "\t" + "%s" % PAR_t[geno] + "\n" +
+                             "P_T" + "\t" + "%s" %  geno  + "\t" + "%s" % P_T[geno] + "\n" +
+                             "Param_PlHeight" + "\t" + "%s" %  geno  + "\t" + "%s" % Param_PlHeight[geno] + "\n" +
+                             "Phi_zen_B" + "\t" + "%s" %  geno  + "\t" + "%s" % Phi_zen_B[geno] + "\n"+
+                             "Param_Ln_final" + "\t" + "%s" %  geno  + "\t" + "%s" % param_Ln_final[geno] + "\n")
+    fichier_params.close()
+    print "Au revoir"
+    fichier_individual= open(pj(out_dir,folder_name, "Individual_heterogeneity.csv"), "w")
+    fichier_individual.write("Parameter" + "\t" + "Num_plante" + "\t" + "Dse" + "\n" )
+    for numplt in range(1,crop_scheme["nplant_peupl"] + 1):
+        fichier_individual.write("Dse_ind" + "\t" + "%s" % numplt + "\t" + "%s" % Dse_heterogeneous[numplt] + "\n" )
+    fichier_individual.close()
 
-  if write_output_file["Ear"] == True:
-    _Ear_df = pd.DataFrame(Ear_dico_df)
-    dF_labels = ["Elapsed_time", "Temp_cum" , "Num_plante" ,"Genotype", "Num_talle" , "Ear_sumtemp"  , "Ear_length" ,"Ear_surface", "Ear_PAR", "Photosynthetic", "Emerged"]
-    Ear_df = _Ear_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Ear_df.to_csv(pj(out_dir,folder_name, "Ear.csv"), sep="\t", header=True, index=False)
+    if write_output_file["GAI"] == True:
+        write_output_Gai(GAI_dico_df)
 
-  if write_output_file["Proba"] == True:
-    _Proba_df = pd.DataFrame(Proba_dico_df)
-    dF_labels = ["Elapsed_time", "Temperature", "Temp_cum", "Num_plante", "Genotype", "Num_talle", "Num_rang", "Sumtemp", "GAI_prox", "P_debourr"]
-    Proba_df = _Proba_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Proba_df.to_csv(pj(out_dir,folder_name, "Probabilities.csv"), sep="\t", header=True, index=False)
-
-  if write_output_file["Peraxes"] == True:
-    _Peraxes_df = pd.DataFrame(Peraxes_dico_df)
-    dF_labels = ["Init_flag","Elapsed_time", "DOY","Temperature", "Temp_cum", "Num_plante", "Num_talle", "Sheath_max", "Collar_height", "Dead_collar_height", "Delta_H", "Visible_leaves_surface", "Visible_surface", "Leaf_contrib_to_GAI","Stem_contrib_to_GAI","Ear_contrib_to_GAI","Peduncle_contrib_to_GAI", "Stop_growth_flag"]
-    Peraxes_df = _Peraxes_df.reindex_axis(dF_labels, axis="columns", copy=False)
-    Peraxes_df.to_csv(pj(out_dir,folder_name, "Peraxes.csv"), sep="\t", header=True, index=False)
-
-  if write_debug_PAR == True:
-    Debug_PAR_df = pd.DataFrame(Debug_PAR_dico_df)
-    Debug_PAR_df.to_csv(pj(out_dir,folder_name, "Debug_PAR.csv"), sep="\t", header=True, index=False)
-
-  if write_output_file["PAR_per_axes"] == True:
-    PAR_per_axes_df = pd.DataFrame(PAR_per_axes_dico)
-    PAR_per_axes_df.to_csv(pj(out_dir,folder_name, "PAR_per_axes.csv"), sep = "\t", header = True, index = False)
-
-  # FICHIER PARAMETRES
-  
-  fichier_params = open(pj(out_dir,folder_name, "Parameters.csv"), "w")
-  fichier_params.write("Parameter" + "\t" + "Genotype" + "\t" + "Value" + "\n" +
-                       "WALTer_version" + "\t" + "All" + "\t" + "%s" % WALTer_version + "\n" +
-                       "WALTer_build" + "\t" + "All" + "\t" + "%s" % WALTer_build + "\n" +
-                       "Related_experiment" + "\t" + "All" + "\t" + "%s" % expe_related + "\n" +
-                       "Crop_conception" + "\t" + "All" + "\t" + "%s" % crop_ccptn + "\n" +
-                       "Sowing_date" + "\t" + "All" + "\t" + "%s" % sowing_date + "\n" +
-                       "Year" + "\t" + "All" + "\t" + "%s" % year + "\n" +
-                       "Location" + "\t" + "All" + "\t" + "%s" % location + "\n" +
-                       "Latitude" + "\t" + "All" + "\t" + "%s" % latitude + "\n" +
-                       "Nbj" + "\t" + "All" + "\t" + "%s" % nbj + "\n" +
-                       "rep" + "\t" + "All" + "\t" + "%s" % rep + "\n" +
-                       "densite" + "\t" + "All" + "\t" + "%s" % densite + "\n" +
-                       "Nb_rang" + "\t" + "All" + "\t" + "%s" % nb_rangs + "\n" +
-                       "Nb_plantes" + "\t" + "All" + "\t" + "%s" % nb_plantes + "\n" +
-                       "Area_targeted" + "\t" + "All" + "\t" + "%s" % area_targeted + "\n" +
-                       "Nb_plantes_utiles" + "\t" + "All" + "\t" + "%s" % crop_scheme["nb_useful_plt"] + "\n" +
-                       "dist_border_x" + "\t" + "All" + "\t" + "%s" % dist_border_x + "\n" +
-                       "dist_border_y" + "\t" + "All" + "\t" + "%s" % dist_border_y + "\n" +
-                       "Genotypes_nb" + "\t" + "All" + "\t" + "%s" % geno_nb + "\n" +
-                       "CARIBU_state" + "\t" + "All" + "\t" + "%s" % CARIBU_state + "\n" +
-                       "SIRIUS_state" + "\t" + "All" + "\t" + "%s" % SIRIUS_state + "\n" +
-                       "Radiation_type" + "\t" + "All" + "\t" + "%s" % radiation_type + "\n" +
-                       "infinity_GAIp"  + "\t" + "All" + "\t" + "%s" % infinity_GAIp + "\n" +
-                       "infinity_CARIBU" + "\t" + "All" + "\t" + "%s" % infinity_CARIBU + "\n" +
-                       "Light_step" + "\t" + "All" + "\t" + "%s" % PAS + "\n" +
-                       "nb_azimuth" + "\t" + "All" + "\t" + "%s" % nb_azimuth + "\n" +
-                       "nb_zenith" + "\t" + "All" + "\t" + "%s" % nb_zenith + "\n" +
-                       "dist_inter_rang" + "\t" + "All" + "\t" + "%s" % dist_inter_rang + "\n" +
-                       "dist_intra_rang" + "\t" + "All" + "\t" + "%s" % dist_intra_rang + "\n" +
-                       "dx" + "\t" + "All" + "\t" + "%s" % dx  + "\n" +
-                       "dy" + "\t" + "All" + "\t" + "%s" % dy  + "\n" +
-                       "Hazard_plant_xy" + "\t" + "All" + "\t" + "%s" % hazard_driver["plant_xy"]  + "\n" +
-                       "Hazard_plant_azi" + "\t" + "All" + "\t" + "%s" % hazard_driver["plant_azi"]  + "\n" +
-                       "Hazard_axis" + "\t" + "All" + "\t" + "%s" % hazard_driver["axis"]  + "\n" +
-                       "Hazard_organ" + "\t" + "All" + "\t" + "%s" % hazard_driver["organ"]  + "\n" +
-                       "Hazard_emerg" + "\t" + "All" + "\t" + "%s" % hazard_driver["emerg"]  + "\n" +
-                       "N_p_s" + "\t" + "All" + "\t" + "%s" % N_p_s + "\n" +
-                       "l_c" + "\t" + "%s" % "All" + "\t" + "%s" % l_c + "\n" +
-                       "L_b_S" + "\t" + "All" + "\t" + "%s" % L_b_S + "\n" +
-                       "Psi_FT" + "\t" + "All" + "\t" + "%s" % Psi_FT + "\n" +
-                       "Tbase" + "\t" + "All" + "\t" + "%s" % Tbase + "\n" +
-                       "T_vern_min" + "\t" + "All" + "\t" + "%s" % Tvermin + "\n" +
-                       "T_vern_opt" + "\t" + "All" + "\t" + "%s" % Tverint + "\n" +
-                       "T_vern_max" + "\t" + "All" + "\t" + "%s" % Tvermax + "\n" +
-                       "Lmax" + "\t" + "All" + "\t" + "%s" % Lmax + "\n" +
-                       "Lmin" + "\t" + "All" + "\t" + "%s" % Lmin + "\n" +
-                       "Ldecr" + "\t" + "All" + "\t" + "%s" % Ldecr + "\n" +
-                       "Lincr" + "\t" + "All" + "\t" + "%s" % Lincr + "\n" +
-                       "phyllo_decr" + "\t" + "All" + "\t" + "%s" % phyllo_decr + "\n" +
-                       "phyllo_incr" + "\t" + "All" + "\t" + "%s" % phyllo_incr + "\n" +
-                       "DLsat" + "\t" + "All" + "\t" + "%s" % DLsat + "\n" +
-                       "Delta_b"  + "\t" + "All" + "\t" + "%s" %  Delta_b + "\n" +
-                       "dGAIp"  + "\t" + "All" + "\t" + "%s" % dGAIp + "\n" +
-                       "Delta_l"  + "\t" + "All" + "\t" + "%s" % Delta_l + "\n" +
-                       "Delta_c_GN" + "\t" + "All" + "\t" + "%s" % Delta_c_GN + "\n" +
-                       "Delta_hf" + "\t" + "All" + "\t" + "%s" % Delta_hf   + "\n" +
-                       "Delta_hm" + "\t" + "All" + "\t" + "%s" % Delta_hm  + "\n" +
-                       "Delta_lflf" + "\t" + "All" + "\t" + "%s" % Delta_lflf + "\n"+
-                       "Delta_flsp" + "\t" + "All" + "\t" + "%s" % Delta_flsp + "\n"+
-                       "Delta_SGtR" + "\t" + "All" + "\t" + "%s" % Delta_SGtR + "\n"+
-                       "Delta_SGtC" + "\t" + "All" + "\t" + "%s" % Delta_SGtC + "\n"+
-                       "ED_I" + "\t" + "All" + "\t" + "%s" % ED_I + "\n" +
-                       "ED_B" + "\t" + "All" + "\t" + "%s" % ED_B + "\n" +
-                       "ED_FB"  + "\t" + "All" + "\t" + "%s" % ED_FB + "\n" +
-                       "ED_S" + "\t" + "All" + "\t" + "%s" % ED_S + "\n" +
-                       "Phi_azi_B"  + "\t" + "All" + "\t" + "%s" % Phi_azi_B + "\n" +
-                       "Phi_zen_T"   + "\t" + "All" + "\t" + "%s" % Phi_zen_T + "\n" +
-                       "Phi_azi_T"  + "\t" + "All" + "\t" + "%s" % Phi_azi_T + "\n" +
-                       "Phi_zen_E"  + "\t" + "All" + "\t" + "%s" % Phi_zen_E + "\n" +
-                       "Phi_azi_S"  + "\t" + "All" + "\t" + "%s" % Phi_azi_S + "\n" +
-                       "Phi_zen_S"  + "\t" + "All" + "\t" + "%s" % Phi_zen_S + "\n" +
-                       "y_position_hazard"  + "\t" + "All" + "\t" + "%s" % y_position_hazard + "\n" +
-                       "x_position_hazard"  + "\t" + "All" + "\t" + "%s" % x_position_hazard + "\n" +
-                       "z_position_hazard"  + "\t" + "All" + "\t" + "%s" % z_position_hazard + "\n" +
-                       "blade_incl_hazard"  + "\t" + "All" + "\t" + "%s" % blade_incl_hazard + "\n" +
-                       "blade_azi_hazard"  + "\t" + "All" + "\t" + "%s" % blade_azi_hazard + "\n" +
-                       "till_zen_hazard"  + "\t" + "All" + "\t" + "%s" % till_zen_hazard + "\n" +
-                       "till_azi_hazard"  + "\t" + "All" + "\t" + "%s" % till_azi_hazard + "\n" + 
-                       "genotype_proportion"  + "\t" + "All" + "\t" + "%s" % genotype_proportion + "\n")
-
-  for geno in crop_genotype:
-    fichier_params.write("Phl" + "\t" + "%s" % geno + "\t" + "%s" % Phl[geno] + "\n" +
-                         "corrected_Phl" + "\t" + "%s" % geno + "\t" + "%s" % phyll_adjust(geno) + "\n" +
-                         "Pls" + "\t" + "%s" % geno + "\t" + "%s" % Pls[geno] + "\n" +
-                         "VAI" + "\t" + "%s" % geno + "\t" + "%s" % VAI[geno] + "\n" +
-                         "VBEE" + "\t" + geno + "\t" + "%s" % VBEE[geno] + "\n" +
-                         "SLDL" + "\t"+ "%s" % geno + "\t"  + "%s" % SLDL[geno] + "\n" +
-                         "Dse_mean" + "\t" + "%s" % geno + "\t" + "%s" % Dse[geno]["mean"] + "\n" +
-                         "Dse_sd" + "\t" + "%s" %  geno  + "\t" + "%s" % Dse[geno]["sd"] + "\n" +
-                         "N_I_el" + "\t" + "%s" %  geno + "\t" + "%s" % N_I_el[geno] + "\n" +
-                         "s_B_1" + "\t" + geno + "\t" + "%s" % s_B_1[geno] + "\n" +
-                         "N_B_r" + "\t" + "%s" %  geno  + "\t" + "%s" % N_B_r[geno] + "\n" +
-                         "L_B_1" + "\t" + "%s" %  geno  + "\t" + "%s" % L_B_1[geno] + "\n" +
-                         "L_B_max" + "\t" + "%s" %  geno  + "\t" + "%s" % L_B_max[geno] + "\n" +
-                         "s_B_f" + "\t" + "%s" % geno + "\t" + "%s" % s_B_f[geno] + "\n" +
-                         "a_B_w" + "\t" + "%s" % geno + "\t" + "%s" % a_B_w[geno] + "\n" +
-                         "b_B_w" + "\t" + "%s" % geno + "\t" + "%s" % b_B_w[geno] + "\n" +
-                         "a_S_L" + "\t" + "%s" % geno + "\t" + "%s" % a_S_L[geno] + "\n" +
-                         "b_S_L" + "\t" + "%s" % geno + "\t" + "%s" % b_S_L[geno] + "\n" +
-                         "inc_I"  + "\t" + "%s" % geno + "\t" + "%s" % inc_I[geno] + "\n" +
-                         "shape_internode"   + "\t" + "%s" % geno + "\t" + "%s" % shp_I[geno] + "\n" +
-                         "b_I_L"   + "\t" + "%s" % geno + "\t" + "%s" % b_I_L[geno] + "\n" +
-                         "a_I_L"   + "\t" + "%s" % geno + "\t" + "%s" % a_I_L[geno] + "\n" +
-                         "d_I" + "\t" + "%s" % geno + "\t" + "%s" % d_I[geno] + "\n" +
-                         "L_P" + "\t" + geno + "\t" + "%s" % L_P[geno] + "\n" +
-                         "d_P" + "\t" + "%s" % geno + "\t" + "%s" % d_P[geno] + "\n" +
-                         "d_E" + "\t" + "%s" % geno + "\t" + "%s" % d_E[geno] + "\n" +
-                         "L_E" + "\t" +  "%s" % geno + "\t" + "%s" % L_E[geno] + "\n" +
-                         "d_S" + "\t" + "%s" % geno + "\t" + "%s" % d_S[geno] + "\n" +
-                         "n0_sen" + "\t" + "%s" % geno + "\t" + "%s" % n0_sen[geno] + "\n" +
-                         "n1_sen" + "\t" + "%s" % geno + "\t" + "%s" % n1_sen[geno] + "\n" +
-                         "n2_sen" + "\t" + "%s" % geno + "\t" + "%s" % n2_sen[geno] + "\n" +
-                         "n3_sen" + "\t" + "%s" % geno + "\t" + "%s" % n3_sen[geno] + "\n" +
-                         "t0_sen" + "\t" + "%s" % geno + "\t" + "%s" % t0_sen[geno] + "\n" +
-                         "t1_sen" + "\t" + "%s" % geno + "\t" + "%s" % t1_sen[geno] + "\n" +
-                         "t2_sen" + "\t" + "%s" % geno + "\t" + "%s" % t2_sen[geno] + "\n" +
-                         "t3_sen" + "\t" + "%s" % geno + "\t" + "%s" % t3_sen[geno] + "\n" +
-                         "DelayTipToHS" + "\t" + "%s" % geno + "\t" + "%s" % DelayTipToHS[geno] + "\n" +
-                         "P_CT" + "\t" + "%s" %  geno  + "\t" + "%s" % P_CT[geno] + "\n" +
-                         "GAI_critique" + "\t"+ "%s" % geno + "\t"  + "%s" % GAI_c[geno] + "\n" +
-                         "t_beg_reg"  + "\t" + geno + "\t" + "%s" % t_beg_reg[geno] + "\n" +
-                         "Delta_prot" + "\t" + geno + "\t" + "%s" %  Delta_prot[geno] + "\n" +
-                         "PAR_t" + "\t" + geno + "\t" + "%s" % PAR_t[geno] + "\n" +
-                         "P_T" + "\t" + "%s" %  geno  + "\t" + "%s" % P_T[geno] + "\n" +
-                         "Param_PlHeight" + "\t" + "%s" %  geno  + "\t" + "%s" % Param_PlHeight[geno] + "\n" + 
-                         "Phi_zen_B" + "\t" + "%s" %  geno  + "\t" + "%s" % Phi_zen_B[geno] + "\n"+
-                         "Param_Ln_final" + "\t" + "%s" %  geno  + "\t" + "%s" % param_Ln_final[geno] + "\n")
-  fichier_params.close()
-  print "Au revoir"
-  fichier_individual= open(pj(out_dir,folder_name, "Individual_heterogeneity.csv"), "w")
-  fichier_individual.write("Parameter" + "\t" + "Num_plante" + "\t" + "Dse" + "\n" )
-  for numplt in range(1,crop_scheme["nplant_peupl"] + 1):
-    fichier_individual.write("Dse_ind" + "\t" + "%s" % numplt + "\t" + "%s" % Dse_heterogeneous[numplt] + "\n" )
-  fichier_individual.close()
-
-  if write_output_file["GAI"] == True:
-    _GAI_df = pd.DataFrame(GAI_dico_df)
-    dF_labels = ["Init_flag","Elapsed_time","Temp_cum","DOY","Genotype","Num_plante","Surface_plante","Surface_visible","Surface_sol","GAI_tot","GAI_center","GAI_ind","GAI_prox","Position","Weakest_axis","PAR_weakest_axis"]
-    GAI_df = _GAI_df.reindex_axis(dF_labels,  axis="columns", copy=False)
-    GAI_df.to_csv(pj(out_dir,folder_name, "GAI.csv"), sep="\t", header=True, index=False)
-  
 
 Axiom:Seed
 
@@ -2837,24 +2712,7 @@ Apex(StA):
         DOY = 1
       else:
         DOY += 1
-      Apex_Sirius_dico_df['Elapsed_time'].append(day)
-      Apex_Sirius_dico_df['Temperature'].append(current_temperature)
-      Apex_Sirius_dico_df['Temp_cum'].append(_Tempcum)
-      Apex_Sirius_dico_df['Daylength'].append(duree_du_jour(latitude,DOY))
-      Apex_Sirius_dico_df['Num_plante'].append(StA.num_plante)
-      Apex_Sirius_dico_df['Genotype'].append(StA.geno)
-      Apex_Sirius_dico_df['PN'].append(StA.pn)
-      Apex_Sirius_dico_df['LN'].append(StA.ln)
-      Apex_Sirius_dico_df['Sumtemp'].append(StA.sumtemp)
-      Apex_Sirius_dico_df['Vern_rate'].append(StA.vern_rate)
-      Apex_Sirius_dico_df['Vern_prog'].append(StA.vern_prog)
-      Apex_Sirius_dico_df['Vern_flag'].append(StA.vrn)
-      Apex_Sirius_dico_df['Debut_ppd_flag'].append(StA.debut_ppd)
-      Apex_Sirius_dico_df['Fin_ppd_flag'].append(StA.photop_flag)
-      Apex_Sirius_dico_df['Ln_pot'].append(StA.Ln_pot)
-      Apex_Sirius_dico_df['Var_L_min'].append(StA.var_Lmin)
-      Apex_Sirius_dico_df['Ln_app'].append(StA.Ln_app)
-      Apex_Sirius_dico_df['Ln_final'].append(StA.Ln_final)
+        output.log_Apex_Sirius(Apex_Sirius_dico_df, day, current_temperature, _Tempcum, duree_du_jour, latitude,DOY, StA)
       if _Tempcum >= Dse_heterogeneous[StA.num_plante]:
         StA.sumtemp += max(Tbase,current_temperature)
         
@@ -3157,45 +3015,28 @@ Apex(StA):
         nproduce [Bud_primord(StBu_p)]Internode(StI)[Leaf(StL)]Apex(StA)
         
         StA.n += 1
-      else:
-        #Ecriture dans fichiers
-        Apex_dico_df['Elapsed_time'].append(elapsed_time)
-        Apex_dico_df['Temperature'].append(Temperature)
-        Apex_dico_df['Temp_cum'].append(Tempcum)
-        Apex_dico_df['Time_count'].append(StA.time)
-        Apex_dico_df['Sum_temp'].append(StA.sumtemp)
-        Apex_dico_df['Current_PAR'].append(current_PAR)
-        Apex_dico_df['Num_plante'].append(StA.num_plante)
-        Apex_dico_df['Genotype'].append(StA.geno)
-        Apex_dico_df['Num_talle'].append(str(StA.tiller))
-        Apex_dico_df['Num_cohorte'].append(cohort_number(StA.tiller))
-        Apex_dico_df['Nb_phyto_emi'].append(StA.n)
+      else: #Ecriture dans fichiers
+        output.log_Apex(Apex_dico_df, elapsed_time, Temperature, Tempcum, current_PAR,cohort_number, StA )
+
         if Tempcum  >= Dse_heterogeneous[StA.num_plante]:
           Apex_dico_df['Nb_emerged_leaf'].append(max(leaf_emergence[StA.num_plante][StA.tiller].keys()))
         else:
           Apex_dico_df['Nb_emerged_leaf'].append(0)
+
         Apex_dico_df['Transiflo_flag'].append(StA.transiflo)
         Apex_dico_df['STOP_init_flag'].append(StA.STOP_init)
         Apex_dico_df['Transiflo_DOY'].append(dico_stades[StA.num_plante][StA.tiller]["Transiflo"][2])
         Apex_dico_df['Ln_final'].append(StA.Ln_final)
+
         produce Apex(StA)
         
-  #Ecriture dans fichiers
-  Apex_dico_df['Elapsed_time'].append(elapsed_time)
-  Apex_dico_df['Temperature'].append(Temperature)
-  Apex_dico_df['Temp_cum'].append(Tempcum)
-  Apex_dico_df['Time_count'].append(StA.time)
-  Apex_dico_df['Sum_temp'].append(StA.sumtemp)
-  Apex_dico_df['Current_PAR'].append(current_PAR)
-  Apex_dico_df['Num_plante'].append(StA.num_plante)
-  Apex_dico_df['Genotype'].append(StA.geno)
-  Apex_dico_df['Num_talle'].append(str(StA.tiller))
-  Apex_dico_df['Num_cohorte'].append(cohort_number(StA.tiller))
-  Apex_dico_df['Nb_phyto_emi'].append(StA.n)
+  #Ecriture dans fichiers #
+  output.log_Apex(Apex_dico_df, elapsed_time, Temperature, Tempcum, current_PAR,cohort_number, StA)
   if Tempcum  >= Dse_heterogeneous[StA.num_plante]:
     Apex_dico_df['Nb_emerged_leaf'].append(max(leaf_emergence[StA.num_plante][StA.tiller].keys()))
   else:
     Apex_dico_df['Nb_emerged_leaf'].append(0)
+
   Apex_dico_df['Transiflo_flag'].append(StA.transiflo)
   Apex_dico_df['STOP_init_flag'].append(StA.STOP_init)
   Apex_dico_df['Transiflo_DOY'].append(dico_stades[StA.num_plante][StA.tiller]["Transiflo"][2])
@@ -3249,26 +3090,7 @@ Apex_R(StAR):
       StAR.mat = True
       
     if write_output_file["Apex_R"]:
-      Apex_R_dico_df['Elapsed_time'].append(elapsed_time)
-      Apex_R_dico_df['DOY'].append(DOY)
-      Apex_R_dico_df['Temperature'].append(Temperature)
-      Apex_R_dico_df['Temp_cum'].append(Tempcum)
-      Apex_R_dico_df['Sum_temp'].append(StAR.sumtemp)
-      Apex_R_dico_df['Num_cohorte'].append(cohort_number(StAR.tiller))
-      Apex_R_dico_df['Ln_final'].append(StAR.Ln_final)
-      Apex_R_dico_df['Num_plante'].append(StAR.num_plante)
-      Apex_R_dico_df['Genotype'].append(StAR.geno)
-      Apex_R_dico_df['Num_talle'].append(StAR.tiller)
-      Apex_R_dico_df['Mont_flag'].append(StAR.mont)
-      Apex_R_dico_df['Mont_DOY'].append(dico_stades[StAR.num_plante][StAR.tiller]["Montaison"][2])
-      Apex_R_dico_df['Flo_flag'].append(StAR.flo)
-      Apex_R_dico_df['Flo_DOY'].append(dico_stades[StAR.num_plante][StAR.tiller]["Flo"][2])
-      Apex_R_dico_df['Death_flag'].append(StAR.death_flag)
-      Apex_R_dico_df['Date_epiaison'].append(dico_stades[StAR.num_plante][StAR.tiller]["Epiaison"][1])
-      Apex_R_dico_df['Epi_DOY'].append(dico_stades[StAR.num_plante][StAR.tiller]["Epiaison"][2])
-      Apex_R_dico_df['Date_de_flo'].append(dico_stades[StAR.num_plante][StAR.tiller]["Flo"][1])
-      Apex_R_dico_df['Mat_DOY'].append(dico_stades[StAR.num_plante][StAR.tiller]["Maturite"][2])
-      Apex_R_dico_df['Date_de_maturite'].append(dico_stades[StAR.num_plante][StAR.tiller]["Maturite"][1])
+        output.log_Apex_R(Apex_R_dico_df, elapsed_time, DOY, Temperature, Tempcum, cohort_number, dico_stades, StAR)
     produce Apex_R(StAR)
 
 Bud_primord(StBu_p):
@@ -3409,16 +3231,7 @@ Bud(StBu):
           
           # Enregistrement des informations
           if write_output_file["Proba"]:
-            Proba_dico_df["Elapsed_time"].append(elapsed_time)
-            Proba_dico_df["Temperature"].append(Temperature)
-            Proba_dico_df["Temp_cum"].append(Tempcum)
-            Proba_dico_df["Num_plante"].append(StBu.num_plante)
-            Proba_dico_df["Genotype"].append(StBu.geno)
-            Proba_dico_df["Num_talle"].append(str(StBu.tiller[0:len(StBu.tiller)-1]))
-            Proba_dico_df["Num_rang"].append(StBu.tiller[-1])
-            Proba_dico_df["Sumtemp"].append(StBu.sumtemp)
-            Proba_dico_df["GAI_prox"].append(GAI_prox[StBu.num_plante])
-            Proba_dico_df["P_debourr"].append(StBu.p_debourr)
+              output.log_Proba(Proba_dico_df, elapsed_time, Temperature, Tempcum, GAI_prox, StBu)
           
           if random.random() <= StBu.p_debourr:
             # Formatting dictionnaries
@@ -3466,16 +3279,8 @@ Bud(StBu):
             StBu.p_debourr = proba_debourr(StBu.tiller, GAI_prox[StBu.num_plante], StBu.geno, StBu.tiller[-1], dico_stades[StBu.num_plante][StBu.tiller[0:len(StBu.tiller)-1]]["Ln_final"]) #On consulte le nombre final de feuilles de la talle m�re
           # Enregistrement des informations
           if write_output_file["Proba"]:
-            Proba_dico_df["Elapsed_time"].append(elapsed_time)
-            Proba_dico_df["Temperature"].append(Temperature)
-            Proba_dico_df["Temp_cum"].append(Tempcum)
-            Proba_dico_df["Num_plante"].append(StBu.num_plante)
-            Proba_dico_df["Genotype"].append(StBu.geno)
-            Proba_dico_df["Num_talle"].append(str(StBu.tiller[0:len(StBu.tiller)-1]))
-            Proba_dico_df["Num_rang"].append(StBu.tiller[-1])
-            Proba_dico_df["Sumtemp"].append(StBu.sumtemp)
-            Proba_dico_df["GAI_prox"].append(GAI_prox[StBu.num_plante])
-            Proba_dico_df["P_debourr"].append(StBu.p_debourr)
+            output.log_Proba(Proba_dico_df, elapsed_time, Temperature, Tempcum, GAI_prox, StBu)
+
             
           if random.random() <= StBu.p_debourr:
             # Formatting dictionnaries
@@ -3529,16 +3334,7 @@ Bud_R(StBuR):
       
       # Enregistrement des informations
       if write_output_file["Proba"]:
-        Proba_dico_df["Elapsed_time"].append(elapsed_time)
-        Proba_dico_df["Temperature"].append(Temperature)
-        Proba_dico_df["Temp_cum"].append(Tempcum)
-        Proba_dico_df["Num_plante"].append(StBuR.num_plante)
-        Proba_dico_df["Genotype"].append(StBuR.geno)
-        Proba_dico_df["Num_talle"].append(str(StBuR.tiller[0:len(StBuR.tiller)-1]))
-        Proba_dico_df["Num_rang"].append(StBuR.tiller[-1])
-        Proba_dico_df["Sumtemp"].append(StBuR.sumtemp)
-        Proba_dico_df["GAI_prox"].append(GAI_prox[StBuR.num_plante])
-        Proba_dico_df["P_debourr"].append(StBuR.p_debourr)
+          output.log_Proba(Proba_dico_df, elapsed_time, Temperature, Tempcum, GAI_prox, StBu)
         
       # Si le bourgeon �merge
       if random.random() <= StBuR.p_debourr:
@@ -3741,24 +3537,7 @@ Blade(StBl):
     StBl.visible_area = visible_area(StBl.visible_length, StBl.width, StBl.final_length) #TODO a optimiser par incr�mentation
     
     if write_output_file["Blade"]:
-      Blade_dico_df['Elapsed_time'].append(elapsed_time)
-      Blade_dico_df['Temp_cum'].append(Tempcum)
-      Blade_dico_df['Temperature'].append(Temperature)
-      Blade_dico_df['Num_plante'].append(StBl.num_plante)
-      Blade_dico_df['Genotype'].append(StBl.geno )
-      Blade_dico_df['Num_talle'].append(str(StBl.tiller))
-      Blade_dico_df['Num_cohorte'].append(cohort_number(StBl.tiller))
-      Blade_dico_df['Num_rang'].append(StBl.n)
-      Blade_dico_df['Blade_sumtemp'].append(leaf_emergence[StBl.num_plante][StBl.tiller][StBl.n][1])
-      Blade_dico_df['Blade_width'].append(StBl.width)
-      Blade_dico_df['Blade_length'].append(StBl.length)
-      Blade_dico_df['Blade_visible_length'].append(StBl.visible_length)
-      Blade_dico_df['Blade_final_length'].append(StBl.final_length)
-      Blade_dico_df['Blade_visible_surface'].append(StBl.visible_area)
-      Blade_dico_df['Blade_surface'].append((StBl.width*StBl.length*0.75))
-      Blade_dico_df['Blade_PAR'].append(StBl.PAR)
-      Blade_dico_df['Senesc_flag'].append(StBl.senesc_flag)
-      Blade_dico_df['Photosynthetic'].append(StBl.photosynthetic)
+        output.log_Blade(Blade_dico_df, elapsed_time, Tempcum, Temperature, cohort_number, leaf_emergence, StBl)
     
     produce Blade(StBl)
 
@@ -3811,21 +3590,7 @@ Sheath(StS):
       #print "gaine : ", StS.n, StS.length
     
     if write_output_file["Sheath"]:
-      Sheath_dico_df['Elapsed_time'].append(elapsed_time)
-      Sheath_dico_df['Temp_cum'].append(Tempcum)
-      Sheath_dico_df['Temperature'].append(Temperature)
-      Sheath_dico_df['Num_plante'].append(StS.num_plante)
-      Sheath_dico_df['Genotype'].append(StS.geno )
-      Sheath_dico_df['Num_talle'].append(str(StS.tiller))
-      Sheath_dico_df['Num_cohorte'].append(cohort_number(StS.tiller))
-      Sheath_dico_df['Num_rang'].append(StS.n)
-      Sheath_dico_df['Sheath_sumtemp'].append(StS.sumtemp)
-      Sheath_dico_df['Sheath_diameter'].append(StS.diameter)
-      Sheath_dico_df['Sheath_length'].append(StS.length)
-      Sheath_dico_df['Sheath_final_length'].append(StS.final_length)
-      Sheath_dico_df['Sheath_surface'].append(pi * (StS.diameter/2) * StS.length)
-      Sheath_dico_df['Sheath_PAR'].append(StS.PAR)
-      Sheath_dico_df['Photosynthetic'].append(StS.photosynthetic)
+      output.og_Sheath(Sheath_dico_df, elapsed_time, Tempcum, Temperature, cohort_number, StS)
       
     produce Sheath(StS)
 
@@ -3847,19 +3612,7 @@ Internode(StI):
           if Tempcum >= leaves_senesc_date_tiller(min(StI.n +1, StI.Ln_final), StI.tiller,  StI.Ln_final, phyll_adjust(StI.geno), n0_sen[StI.geno], n1_sen[StI.geno], n2_sen[StI.geno], n3_sen[StI.geno], t1_sen[StI.geno], t2_sen[StI.geno], t3_sen[StI.geno], Dse_heterogeneous[StI.num_plante], DelayTipToHS[StI.geno]) and StI.photosynthetic == True:
             StI.photosynthetic = False
       if write_output_file["Internode"]:
-        Internode_dico_df['Elapsed_time'].append(elapsed_time)
-        Internode_dico_df['Temp_cum'].append(Tempcum)
-        Internode_dico_df['Temperature'].append(Temperature)
-        Internode_dico_df['Num_plante'].append(StI.num_plante)
-        Internode_dico_df['Genotype'].append(StI.geno )
-        Internode_dico_df['Num_talle'].append(str(StI.tiller))
-        Internode_dico_df['Num_cohorte'].append(cohort_number(StI.tiller))
-        Internode_dico_df['Num_rang'].append(StI.n)
-        Internode_dico_df['Internode_length'].append(StI.length)
-        Internode_dico_df['Internode_final_length'].append(StI.final_length)
-        Internode_dico_df['Internode_surface'].append(StI.area)
-        Internode_dico_df['Internode_PAR'].append(StI.PAR)
-        Internode_dico_df['Photosynthetic'].append(StI.photosynthetic)
+        output.log_Internode(Internode_dico_df, elapsed_time, Tempcum, Temperature, cohort_number, StI)
       
     else:
       StI.age += time_step
@@ -3889,19 +3642,7 @@ Internode(StI):
             StI.photosynthetic = False
       
       if write_output_file["Internode"]:
-        Internode_dico_df['Elapsed_time'].append(elapsed_time)
-        Internode_dico_df['Temp_cum'].append(Tempcum)
-        Internode_dico_df['Temperature'].append(Temperature)
-        Internode_dico_df['Num_plante'].append(StI.num_plante)
-        Internode_dico_df['Genotype'].append(StI.geno )
-        Internode_dico_df['Num_talle'].append(str(StI.tiller))
-        Internode_dico_df['Num_cohorte'].append(cohort_number(StI.tiller))
-        Internode_dico_df['Num_rang'].append(StI.n)
-        Internode_dico_df['Internode_length'].append(StI.length)
-        Internode_dico_df['Internode_final_length'].append(StI.final_length)
-        Internode_dico_df['Internode_surface'].append(StI.area)
-        Internode_dico_df['Internode_PAR'].append(StI.PAR)
-        Internode_dico_df['Photosynthetic'].append(StI.photosynthetic)
+        output.log_Internode(Internode_dico_df, elapsed_time, Tempcum, Temperature, cohort_number, StI)
         
       nproduce Internode(StI)
 
@@ -3925,20 +3666,7 @@ Peduncle(StP):
     StP.photosynthetic = False
   
   if write_output_file["Peduncle"]:
-    Peduncle_dico_df['Elapsed_time'].append(elapsed_time)
-    Peduncle_dico_df['Temp_cum'].append(Tempcum)
-    Peduncle_dico_df['Temperature'].append(Temperature)
-    Peduncle_dico_df['Num_plante'].append(StP.num_plante)
-    Peduncle_dico_df['Genotype'].append(StP.geno)
-    Peduncle_dico_df['Num_talle'].append(str(StP.tiller))
-    Peduncle_dico_df['Num_cohorte'].append(cohort_number(StP.tiller))
-    Peduncle_dico_df['Num_rang'].append(StP.n)
-    Peduncle_dico_df['Sum_temp'].append(StP.sumtemp)
-    Peduncle_dico_df['Peduncle_length'].append(StP.length)
-    Peduncle_dico_df['Peduncle_final_length'].append(StP.final_length)
-    Peduncle_dico_df['Peduncle_surface'].append(StP.area)
-    Peduncle_dico_df['Peduncle_PAR'].append(StP.PAR)
-    Peduncle_dico_df['Photosynthetic'].append(StP.photosynthetic)
+    output.log_Peduncle(Peduncle_dico_df, elapsed_time, Tempcum, Temperature, cohort_number, StP)
     
   produce Peduncle(StP)
 
@@ -3962,17 +3690,7 @@ Ear(StE):
     StE.photosynthetic = False
   
   if write_output_file["Ear"]:
-    Ear_dico_df["Elapsed_time"].append(elapsed_time)
-    Ear_dico_df["Temp_cum"].append(Tempcum)
-    Ear_dico_df["Num_plante"].append(StE.num_plante)
-    Ear_dico_df["Genotype"].append(StE.geno)
-    Ear_dico_df["Num_talle"].append(str(StE.tiller))
-    Ear_dico_df["Ear_sumtemp"].append(StE.sumtemp)
-    Ear_dico_df["Ear_length"].append(StE.length)
-    Ear_dico_df["Ear_surface"].append(StE.area)
-    Ear_dico_df["Emerged"].append(StE.emerged)
-    Ear_dico_df["Ear_PAR"].append(StE.PAR)
-    Ear_dico_df["Photosynthetic"].append(StE.photosynthetic)
+    output.log_Ear(Ear_dico_df, elapsed_time, Tempcum, StE)
   
   produce Ear(StE)
 
