@@ -15,10 +15,6 @@ ID = "output_debug"
 folder_name = ID
 
 
-which_output_files = pd.read_csv(pj(data_dir, "which_output_files.csv"), sep="\t")
-write_output_file = {"GAI":which_output_files.GAIp[0], "Peraxes":which_output_files.Peraxes[0], "Proba":which_output_files.Proba[0], "Apex_Sirius":which_output_files.Apex_sirius[0], "Apex":which_output_files.Apex[0], "Apex_R":which_output_files.Apex_R[0], "Blade":which_output_files.Blade[0], "Internode":which_output_files.Internode[0], "Sheath":which_output_files.Sheath[0], "Ear":which_output_files.Ear[0], "Peduncle":which_output_files.Peduncle[0], "PAR_per_axes":which_output_files.PAR_per_axes[0], "Lstring":which_output_files.Lstring[0], "Lscene":which_output_files.Lscene[0]}
-print "ce qu'on ecrit:", write_output_file["Lscene"]
-
 ### --- Initialisation --- ###
 
  # initialise all the variables at the same time.
@@ -38,9 +34,12 @@ def init_all(GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df, Apex_R_dico_df, Bla
     init_output_Debug(Debug_dico_df)
     init_output_PAR_per_axes(PAR_per_axes_dico)
 
+class output :
 
+def __init__(self):
+    self.nom =
 
-def init_output_Gai(GAI_dico_df):
+def init_output_Gai(self,GAI_dico_df):
     GAI_dico_df = {"Init_flag": [], "Elapsed_time": [], "Temp_cum": [],
                    "DOY": [], "Genotype": [], "Num_plante": [],
                    "Surface_plante": [], "Surface_visible": [],
