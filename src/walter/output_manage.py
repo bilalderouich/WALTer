@@ -18,36 +18,106 @@ folder_name = ID
 ### --- Initialisation --- ###
 
  # initialise all the variables at the same time.
-def init_all(GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df, Apex_R_dico_df, Blade_dico_df,
-             Internode_dico_df, Peduncle_dico_df, Sheath_dico_df, Ear_dico_df, Proba_dico_df, Peraxes_dico_df, Debug_dico_df, PAR_per_axes_dico):
-    init_output_Gai(GAI_dico_df)
-    init_output_Apex_Sirius(Apex_Sirius_dico_df)
-    init_output_Apex(Apex_dico_df)
-    init_output_Apex_R(Apex_R_dico_df)
-    init_output_Blade(Blade_dico_df)
-    init_output_Internode(Internode_dico_df)
-    init_output_Peduncle(Peduncle_dico_df)
-    init_output_Sheath(Sheath_dico_df)
-    init_output_Ear(Ear_dico_df)
-    init_output_Proba(Proba_dico_df)
-    init_output_Peraxes(Peraxes_dico_df)
-    init_output_Debug(Debug_dico_df)
-    init_output_PAR_per_axes(PAR_per_axes_dico)
+def init_all(GAI_dico_df,
+             Apex_Sirius_dico_df,
+             Apex_dico_df,
+             Apex_R_dico_df,
+             Blade_dico_df,
+             Internode_dico_df,
+             Peduncle_dico_df,
+             Sheath_dico_df,
+             Ear_dico_df,
+             Proba_dico_df,
+             Peraxes_dico_df,
+             Debug_dico_df,
+             PAR_per_axes_dico):
+    GAI_dico_df = init_output_Gai()
+    Apex_Sirius_dico_df = init_output_Apex_Sirius()
+    Apex_dico_df = init_output_Apex()
+    Apex_R_dico_df = init_output_Apex_R()
+    Blade_dico_df = init_output_Blade()
+    init_output_Internode()
+    init_output_Peduncle()
+    init_output_Sheath()
+    init_output_Ear()
+    init_output_Proba()
+    init_output_Peraxes()
+    init_output_Debug()
+    init_output_PAR_per_axes()
 
-class output :
+    return (GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df)
 
-def __init__(self):
-    self.nom =
 
-def init_output_Gai(self,GAI_dico_df):
+"""class Output(object):
+    """
+
+    """
+
+    def __init__(self):
+        self.apex_dico_df = {"Elapsed_time": [],
+                              "Temperature": [],
+                              "Temp_cum": [],
+                              "Time_count": [],
+                              "Sum_temp": [],
+                              "Current_PAR": [],
+                              "Num_plante": [],
+                              "Genotype": [],
+                              "Num_talle": [],
+                              "Num_cohorte": [],
+                              "Nb_phyto_emi": [],
+                              "Nb_emerged_leaf": [],
+                              "Transiflo_flag": [],
+                              "STOP_init_flag": [],
+                              "Transiflo_DOY": [],
+                              "Ln_final": []}
+
+    def write_output_apex_dico(self, out_dir, folder_name, filename="Apex.csv"):
+        df = pd.DataFrame(self.apex_dico_df)
+        df_labels = ["Elapsed_time",
+                     "Temperature",
+                     "Temp_cum",
+                     "Time_count",
+                     "Sum_temp",
+                     "Current_PAR",
+                     "Num_plante",
+                     "Genotype",
+                     "Num_talle",
+                     "Num_cohorte",
+                     "Nb_phyto_emi",
+                     "Nb_emerged_leaf",
+                     "Transiflo_flag",
+                     "STOP_init_flag",
+                     "Transiflo_DOY",
+                     "Ln_final"]
+
+        df = df.reindex_axis(df_labels, axis="columns", copy=False)
+        df.to_csv(pj(out_dir, folder_name, filename),
+                  sep="\t", header=True, index=False)
+"""
+
+def init_output_Apex():
+    Apex_dico_df = {"Elapsed_time": [], "Temperature": [],
+                              "Temp_cum": [],
+                              "Time_count": [], "Sum_temp": [],
+                              "Current_PAR": [],
+                              "Num_plante": [], "Genotype": [], "Num_talle": [],
+                              "Num_cohorte": [], "Nb_phyto_emi": [],
+                              "Nb_emerged_leaf": [], "Transiflo_flag": [],
+                              "STOP_init_flag": [], "Transiflo_DOY": [],
+                              "Ln_final": []}
+
+    return Apex_dico_df
+
+def init_output_Gai():
     GAI_dico_df = {"Init_flag": [], "Elapsed_time": [], "Temp_cum": [],
                    "DOY": [], "Genotype": [], "Num_plante": [],
                    "Surface_plante": [], "Surface_visible": [],
                    "Surface_sol": [], "GAI_tot": [], "GAI_center": [],
                    "GAI_ind": [], "GAI_prox": [], "Position": []}
+    return GAI_dico_df
 
 
-def init_output_Apex_Sirius(Apex_Sirius_dico_df):
+def init_output_Apex_Sirius():
     Apex_Sirius_dico_df = {"Elapsed_time": [], "Temperature": [],
                            "Temp_cum": [], "Daylength": [], "Num_plante": [],
                            "Genotype": [], "PN": [], "LN": [], "Sumtemp": [],
@@ -55,16 +125,10 @@ def init_output_Apex_Sirius(Apex_Sirius_dico_df):
                            "Debut_ppd_flag": [], "Fin_ppd_flag": [],
                            "Ln_pot": [], "Var_L_min": [], "Ln_app": [],
                            "Ln_final": []}
+    return Apex_Sirius_dico_df
 
-def init_output_Apex(Apex_dico_df):
-    Apex_dico_df = {"Elapsed_time": [], "Temperature": [], "Temp_cum": [],
-                    "Time_count": [], "Sum_temp": [], "Current_PAR": [],
-                    "Num_plante": [], "Genotype": [], "Num_talle": [],
-                    "Num_cohorte": [], "Nb_phyto_emi": [],
-                    "Nb_emerged_leaf": [], "Transiflo_flag": [],
-                    "STOP_init_flag": [], "Transiflo_DOY": [], "Ln_final": []}
 
-def init_output_Apex_R(Apex_R_dico_df):
+def init_output_Apex_R():
     Apex_R_dico_df = {"Elapsed_time": [], "DOY": [], "Temperature": [],
                       "Temp_cum": [], "Sum_temp": [], "Num_plante": [],
                       "Genotype": [], "Num_cohorte": [], "Ln_final": [],
@@ -72,47 +136,54 @@ def init_output_Apex_R(Apex_R_dico_df):
                       "Date_de_flo": [], "Mont_flag": [], "Mont_DOY": [],
                       "Flo_flag": [], "Flo_DOY": [], "Death_flag": [],
                       "Date_de_maturite": [], "Mat_DOY": []}
+    return Apex_R_dico_df
 
-def init_output_Blade(Blade_dico_df):
+def init_output_Blade():
     Blade_dico_df = {"Elapsed_time" :[], "Temp_cum" :[], "Temperature" :[], "Num_plante" :[], "Genotype" :[], "Num_talle" :[], "Num_cohorte" :[], "Num_rang" :[], "Blade_sumtemp" :[], "Blade_width" :[], "Blade_length" :[], "Blade_visible_length" :[], "Blade_final_length" :[], "Blade_visible_surface" :[], "Blade_surface" :[], "Blade_PAR" :[], "Senesc_flag" :[], "Photosynthetic" :[]}
+    return Blade_dico_df
 
-def init_output_Internode(Internode_dico_df):
+def init_output_Internode():
     Internode_dico_df = {"Elapsed_time": [], "Temp_cum": [], "Temperature": [],
                          "Num_plante": [], "Genotype": [], "Num_talle": [],
                          "Num_cohorte": [], "Num_rang": [],
                          "Internode_length": [], "Internode_final_length": [],
                          "Internode_surface": [], "Internode_PAR": [],
                          "Photosynthetic": []}
+    return Internode_dico_df
 
-def init_output_Peduncle(Peduncle_dico_df):
+def init_output_Peduncle():
     Peduncle_dico_df = {"Elapsed_time": [], "Temp_cum": [], "Temperature": [],
                         "Num_plante": [], "Genotype": [], "Num_talle": [],
                         "Num_cohorte": [], "Num_rang": [], "Sum_temp": [],
                         "Peduncle_length": [], "Peduncle_final_length": [],
                         "Peduncle_surface": [], "Peduncle_PAR": [],
                         "Photosynthetic": []}
+    return Peduncle_dico_df
 
-def init_output_Sheath(Sheath_dico_df):
+def init_output_Sheath():
     Sheath_dico_df = {"Elapsed_time": [], "Temp_cum": [], "Temperature": [],
                       "Num_plante": [], "Genotype": [], "Num_talle": [],
                       "Num_cohorte": [], "Num_rang": [], "Sheath_sumtemp": [],
                       "Sheath_diameter": [], "Sheath_length": [],
                       "Sheath_final_length": [], "Sheath_surface": [],
                       "Sheath_PAR": [], "Photosynthetic": []}
+    return Sheath_dico_df
 
-def init_output_Ear(Ear_dico_df):
+def init_output_Ear():
     Ear_dico_df = {"Elapsed_time": [], "Temp_cum": [], "Num_plante": [],
                    "Genotype": [], "Num_talle": [], "Ear_sumtemp": [],
                    "Ear_length": [], "Ear_surface": [], "Ear_PAR": [],
                    "Photosynthetic": [], "Emerged": []}
+    return Ear_dico_df
 
-def init_output_Proba(Proba_dico_df):
+def init_output_Proba():
     Proba_dico_df = {"Elapsed_time": [], "Temperature": [], "Temp_cum": [],
                      "Num_plante": [], "Genotype": [], "Num_talle": [],
                      "Num_rang": [], "Sumtemp": [], "GAI_prox": [],
                      "P_debourr": []}
+    return Proba_dico_df
 
-def init_output_Peraxes(Peraxes_dico_df):
+def init_output_Peraxes():
     Peraxes_dico_df = {"Init_flag": [], "Elapsed_time": [], "DOY": [],
                        "Temperature": [], "Temp_cum": [], "Num_plante": [],
                        "Num_talle": [], "Sheath_max": [], "Collar_height": [],
@@ -121,16 +192,18 @@ def init_output_Peraxes(Peraxes_dico_df):
                        "Stop_growth_flag": [], "Leaf_contrib_to_GAI": [],
                        "Stem_contrib_to_GAI": [], "Ear_contrib_to_GAI": [],
                        "Peduncle_contrib_to_GAI": []}
+    return Peraxes_dico_df
 
-def init_output_Debug(Debug_PAR_dico_df):
+def init_output_Debug():
     Debug_PAR_dico_df = {"Elapsed_time": [], "Temp_cum": [], "Num_plante": [],
                          "Num_talle": [], "Organ_PAR": [], "Organ_type": [],
                          "Num_organe": [], "Organ_surface": [], "Ei": []}
+    return Debug_PAR_dico_df
 
-def init_output_PAR_per_axes(PAR_per_axes_dico):
+def init_output_PAR_per_axes():
     PAR_per_axes_dico = {"Elapsed_time": [], "Temp_cum": [], "Num_plante": [],
                          "Num_talle": [], "Sum_PAR": [], "Inc_PAR": []}
-
+    return PAR_per_axes_dico
 
 
 ### --- Writers --- ###
