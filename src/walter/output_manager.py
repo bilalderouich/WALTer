@@ -18,19 +18,7 @@ folder_name = ID
 ### --- Initialisation --- ###
 
  # initialise all the variables at the same time.
-def init_all(GAI_dico_df,
-             Apex_Sirius_dico_df,
-             Apex_dico_df,
-             Apex_R_dico_df,
-             Blade_dico_df,
-             Internode_dico_df,
-             Peduncle_dico_df,
-             Sheath_dico_df,
-             Ear_dico_df,
-             Proba_dico_df,
-             Peraxes_dico_df,
-             Debug_dico_df,
-             PAR_per_axes_dico):
+def init_all():
     GAI_dico_df = init_output_Gai()
     Apex_Sirius_dico_df = init_output_Apex_Sirius()
     Apex_dico_df = init_output_Apex()
