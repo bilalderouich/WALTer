@@ -36,19 +36,24 @@ def init_all(GAI_dico_df,
     Apex_dico_df = init_output_Apex()
     Apex_R_dico_df = init_output_Apex_R()
     Blade_dico_df = init_output_Blade()
-    init_output_Internode()
-    init_output_Peduncle()
-    init_output_Sheath()
-    init_output_Ear()
-    init_output_Proba()
-    init_output_Peraxes()
-    init_output_Debug()
-    init_output_PAR_per_axes()
+    Internode_dico_df = init_output_Internode()
+    Peduncle_dico_df = init_output_Peduncle()
+    Sheath_dico_df = init_output_Sheath()
+    Ear_dico_df = init_output_Ear()
+    Proba_dico_df = init_output_Proba()
+    Peraxes_dico_df = init_output_Peraxes()
+    Debug_dico_df = init_output_Debug()
+    PAR_per_axes_dico = init_output_PAR_per_axes()
 
-    return (GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df)
+    return (GAI_dico_df, Apex_Sirius_dico_df, Apex_dico_df, Apex_R_dico_df,Blade_dico_df, Internode_dico_df,
+            Peduncle_dico_df,Sheath_dico_df,Ear_dico_df,Proba_dico_df,Peraxes_dico_df, Debug_dico_df,PAR_per_axes_dico)
 
 
-"""class Output(object):
+"""
+
+-> Exemple of class. The purpose of this file is to separate all the outputs and let this file manage them by only creating an instance of this class.  
+
+class Output(object):
     """
 
     """
@@ -207,6 +212,19 @@ def init_output_PAR_per_axes():
 
 
 ### --- Writers --- ###
+
+#TRY TO GENERALISE THIS FUNCTION
+def write_output(file_dico_df, dF_labels = 0):
+    dico_df = pd.DataFrame(file_dico_df)
+    file = str(file_dico_df).split('_')[0] + ".csv"
+    if dF_labels != 0 :
+        df = dico_df.reindex_axis(dF_labels,axis="columns", copy=False)
+        df.to_csv(pj(out_dir, folder_name, file), sep="\t", header=True,
+                  index=False)
+    else :
+        dico_df.to_csv(pj(out_dir, folder_name, file), sep="\t", header=True,
+                  index=False)
+
 
 def write_output_Gai(GAI_dico_df):
     _GAI_df = pd.DataFrame(GAI_dico_df)
